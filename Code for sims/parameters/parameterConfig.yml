@@ -1,0 +1,101 @@
+debug: false
+executable: ./predprey
+output_file: predprey_parameters.sh
+format: cluster # cluster | mathematica
+positions:
+  # - m
+  # - q 
+  # - e1
+  # - z
+  - experiment_name
+  - adaptation_evol
+  - dist__0
+  - dist__1
+  - width__0
+  - defence_evol
+  - env_variance
+  - env_variation
+  - env_mut_sd
+permutate_experiments:
+  experiment_name: def_evol[<defence_evol>]-adapt_evol[<adaptation_evol>]-d_0[<dist__0>]-d_1[<dist__1>]-w_0[<width__0>]-env_var[<env_variance>]-env_var_on[<env_variation>]-env_mut_sd[<env_mut_sd>]
+  replicates: 8
+  parameters:
+    # - m:
+    #     - "2"
+    #     - "4"
+    #     - "6"
+    #     - "8"
+    #     - "10"
+    #   q:
+    #     - "0"
+    #     - "0.1"
+    #     - "0.25"
+    #     - "0.5"
+    #   e1:
+    #     - "0.1"
+    #     - "0.5"
+    #     - "1"
+    #   z:
+    #     - "0.1"
+    #     - "0.5"
+    #     - "1"
+
+    - adaptation_evol:
+        - "0"
+      defence_evol:
+        - "1"
+        - "0"
+      dist__0:
+        - "100"
+        - "400"
+        - "600"
+      dist__1:
+        - "400"
+      width__0:
+        - "50"
+      env_variance:
+        - "1.0"
+      env_variation:
+        - "1"
+      env_mut_sd:
+        - "0.03"
+
+    - adaptation_evol:
+        - "0"
+      defence_evol:
+        - "1"
+        - "0"
+      dist__0:
+        - "100"
+        - "400"
+        - "600"
+      dist__1:
+        - "400"
+      width__0:
+        - "50"
+      env_variance:
+        - "0"
+      env_variation:
+        - "0"
+      env_mut_sd:
+        - "0.03"
+
+    # - adaptation_evol:
+    #     - "1"
+    #   defence_evol:
+    #     - "1"
+    #   dist__0:
+    #     - "100"
+    #     - "400"
+    #     - "600"
+    #   dist__1:
+    #     - "400"
+    #   width__0:
+    #     - "1"
+    #     - "5"
+    #   env_variance:
+    #     - "0"
+    #   env_variation:
+    #     - "0"
+    #   env_mut_sd:
+    #     - "0.03"

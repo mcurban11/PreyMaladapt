@@ -1,0 +1,70 @@
+---
+- name: Test
+  hosts: tinyserver
+  become: yes
+  vars:
+    - repo_url: git@github.com:JoaquimXG/tiny-server.git
+    - user: tiny
+    # - runline_start: 1
+    # - cores: 4
+  tasks:
+    - name: Install cpp compiler
+      apt:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      with_items:
+        - build-essential
+        - libssl-dev
+        - libffi-dev
+        - g++
+
+    - name: Copy ssh Identity
+      copy:
+        src: "{{ lookup('env', 'HOME') }}/.ssh/deploy-key"
+        dest: "/home/{{ user }}/.ssh/id_rsa"
+        owner: "{{ user }}"
+        group: "{{ user }}"
+        mode: 0400
+
+    - name: Clone repo
+      git:
+        repo: "{{ repo_url }}"
+        dest: /home/{{ user }}/tiny-server/code/
+        version: master
+        force: yes
+        update: yes
+        accept_hostkey: yes
+        key_file: /home/{{ user }}/.ssh/id_rsa
+
+    - name: Compile
+      shell: g++ -g *.cpp -o predprey
+      args:
+        chdir: /home/{{ user }}/tiny-server/code/src/
+
+    - name: Move executable to home
+      shell: mv predprey /home/{{ user }}
+      args:
+        chdir: /home/{{ user }}/tiny-server/code/src/
+
+    - name: Copy parameters file
+      copy:
+        src: ../parameters/predprey_parameters.sh
+        dest: /home/{{ user }}/predprey_parameters.sh
+        owner: "{{ user }}"
+        group: "{{ user }}"
+        mode: 0644
+
+    - name: Copy Runline
+      copy:
+        src: runline.sh
+        dest: /home/{{ user }}/runline.sh
+        owner: "{{ user }}"
+        group: "{{ user }}"
+        mode: 0744
+
+    - name: Run in background with runline
+      shell: "nohup /home/{{ user }}/runline.sh predprey_parameters.sh {{item}} > log-{{item}} 2>&1 &"
+      args:
+        chdir: /home/{{ user }}/
+      with_sequence: "start={{runline_start}} count={{cores}}"
