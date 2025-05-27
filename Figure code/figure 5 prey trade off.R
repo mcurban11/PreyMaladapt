@@ -37,7 +37,7 @@ create_line_plot_mutation = function(dir, filt){
   names(dirs)="name"
   cartelle=dirs%>%filter(name %like% filt)
   
-  ###COME CAZZO ACCEDO AI NUMERINI DI DISPERSAL PORCA PALETTA
+  ##
   for(i in 1:dim(cartelle)[1]){
     f=list.files(cartelle$name[i],pattern = "*Pops*")
     prova=fread(paste(cartelle$name[i],f,sep = "/"))
