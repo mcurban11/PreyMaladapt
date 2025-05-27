@@ -135,11 +135,5 @@ wrap_plots(AllFixed, AllFixedEnv, OnlyNiche, OnlyNicheEnv, OnlyDefence,
 ggsave(filename = "Fig.S5-PredatorAbundance-weakSelection.tiff",path = "C:/Users/aliss/OneDrive - University of Aberdeen/PhD in AI/evolution things preparing for maladaptation work/first draft/high res figures supp/", width = 1600, height = 2500, units = "px", device='tiff', dpi=300)
 
 
-#this looks shit
-#title <- ggdraw() + draw_label("Predator mean abundance", fontface = 'bold')
-#first_row <- plot_grid(AllFixed, AllFixedEnv,  ncol = 2, labels =c("A", "A1"))
-#second_row <- plot_grid(OnlyNiche, OnlyNicheEnv, ncol = 2, labels = c("B", "B1"))
-#third_row <- plot_grid(OnlyDefence, OnlyDefenceEnv, ncol = 2, labels = c("C", "C1"))
-#fourth_row <- plot_grid(AllEvolve, AllEvolveEnv, ncol = 2, labels = c("D", "D1"))
-#plot_grid(title, first_row, second_row, third_row, fourth_row, nrow = 5, rel_heights = c(0.2, 1, 1) )
+
 
