@@ -26,7 +26,7 @@ Parameters::Parameters() {
 	shift_end = 2600;
 	grad_inc = 0.075; //in degrees Celsius
 	shift_rate = 0.0375; //in degrees Celsius
-	//opt = new double[2]{ 15.0, 15.0 }; // environmental optima for 1) prey and 2) predator //WHAT DO I PUT HERE FOR PREY
+	//opt = new double[2]{ 15.0, 15.0 }; // environmental optima for 1) prey and 2) predator 
 	opt = new double[2]{ 30.0, 30.0 }; //new optimum for the predator with bigger landscape
 	width = new double[2]{ 5.0, 5.0 }; //niche widths for 1) prey and 2) predator //IDEM AS ABOVE
 	//initialisation
@@ -43,9 +43,9 @@ Parameters::Parameters() {
 	disp_evol = new bool[2]{ true, false }; //dispersal evolving for prey and predator	
 	def_mean = 0.5; //initial genotypic mean for defense trait 
 	def_mean_fixed = 1.0; //(defence value if defence is not evoving)
-	AdaptEnv_mean = 15; //INITIAL GENOTYPIC MEAN FOR ADAPTATION TO THE ENVIRONMENT.this is useless
+	AdaptEnv_mean = 15; //INITIAL GENOTYPIC MEAN FOR ADAPTATION TO THE ENVIRONMENT
 	def_sd = 0.1; //initial genotypic standard deviation for defense trait
-	AdaptEnv_sd = 0.5; //initial geneotypic sd for adaptation (VALORE TOTALMENTE INVENTATO?)
+	AdaptEnv_sd = 0.5; //initial geneotypic sd for adaptation 
 	max_def = 1.0; //maximum phenotypic value allowed for prey defence
 	min_def = 0.0; //minimum phenotypic value allowed for prey defence
 	min_adapt_env = 0.0;
@@ -59,16 +59,16 @@ Parameters::Parameters() {
 	//Reproduction
 	prey_tradeoff = true; //trade-off between prey defense and growth rate
 	defence_environmental_adaptation_tradeoff = false;
-	tradeConst = 1.0; //constant for growth rate scaling in the model withj polymorphisms
-	lambda0 = 1.6; //prey growth rate in the abscence of trade-off
+	tradeConst = 1.0; //constant for growth rate scaling in the model with polymorphisms
+	lambda0 = 1.6; //prey growth rate in the absence of trade-off
 	max_lambda = 2.0; //max prey growth rate
 	min_lambda = 1.2; //min prey growth rate
 	max_a = 0.5; //max predator attack rate
 	min_a = 0.1; //min predator attack rate
 	c = 0.5; //predator conversion efficiency (Hassell-Varley model)
-	m = 0.85; //predator interference coefficient (Hassell-Varley model) - basically defines denisity dependence for the predator 
+	m = 0.85; //predator interference coefficient (Hassell-Varley model) - basically defines density dependence for the predator 
 	k = 5.0; //parameter for exponenetial attack rate
-	maladapt_ratio = 1.0; //CHE FO QUI
+	maladapt_ratio = 1.0; //
 	//Dispersal
 	dist = new double[2] { 100.0 , 100.0 }; //mean dispersal distance (negative exp.) for prey and predators (in metres)
 
@@ -136,7 +136,7 @@ void Parameters::outPara(string name) {
 	out << "pred_max_attackrate\t" << max_a << endl; //max predator attack rate
 	out << "pred_min_attackrate\t" << min_a << endl; //min predator attack rate
 	out << "pred_c\t" << c << endl;//predator conversion efficiency (Hassell-Varley model)
-	out << "pred_m\t" << m << endl; //predator interference coefficient (Hassell-Varley model) - basically defines denisity dependence for the predator 
+	out << "pred_m\t" << m << endl; //predator interference coefficient (Hassell-Varley model) - basically defines density dependence for the predator 
 	out << "maladaptation_ratio\t" << maladapt_ratio << endl;
 	//Dispersal
 	out << "prey_mean_disp_dist\t" << dist[0] << endl; //mean dispersal distance (negative exp.) for prey and predators (in metres)
