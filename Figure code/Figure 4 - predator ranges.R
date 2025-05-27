@@ -84,7 +84,6 @@ create_line_plot_range = function(dir, filt, dir1, filt1){
   
   t1 = subset(t1, y1<300)
   #calculate range
-  #NON RIESCO A CAPIRE CHE CAZZO DEVO RAGGRUPPARE QUI. PENSIAMOCI DOPO
   t_range_1 = t1%>%filter(N1mean_evolving>=1)
   t_range_stat=  t_range_1 %>%
     group_by(dist1) %>%
