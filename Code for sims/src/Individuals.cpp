@@ -51,9 +51,6 @@ void Individuals::initialise(Parameters para, Landscape ***arena, std::normal_di
 				*traits.p_adapt_env = *traits.g_adapt_env;
 				//calculate fitness for adaptation to climate
 				*traits.fitClim = exp(-pow( ((*traits.p_adapt_env)-(*arena[x][y]->theta)), 2.0) / (2.0 * para.width[0])); 
-				//HOW DO I feed it into the function that links to local climate
-				//if (*traits.p_adapt_env < para.min_adapt_env) *traits.p_adapt_env = para.min_adapt_env; 
-				//if (*traits.p_adapt_env > para.max_adapt_env) *traits.p_adapt_env = para.max_adapt_env;
 				
 		}
 		else{
