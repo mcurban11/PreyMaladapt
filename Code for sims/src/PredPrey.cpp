@@ -19,15 +19,6 @@ int main(int argc, char* argv[])
 	para.env_variation = std::atoi(argv[8]);
 	para.env_mut_sd = std::atof(argv[9]);
 
-	//para.grad_shifts = std::atoi(argv[4]);
-	//para.def_mean = std::atof(argv[6]);
-	// para.c = std::atof(argv[5]); // 0.5
-	//para.max_def = std::atof(argv[9]);
-	//para.min_def = std::atof(argv[10]);
-	//para.polymorphism = std::atoi(argv[11]);
-	// para.prey_tradeoff = std::atoi(argv[6]); // true
-	// para.maladapt_ratio = std::atof(argv[7]); // 1.0
-
 	RunModel();
 
 	cout << "Simulation completed" << endl;
@@ -273,7 +264,6 @@ void initialisation(int xmax, int ymax, int minSx, int minSy, int maxSx, int max
 		mean_defence = para.def_mean_fixed;
 	}
 	std::normal_distribution<> distrDef(mean_defence / (2.0 * (double)para.L), para.def_sd / sqrt(2.0 * (double)para.L));
-	//std::normal_distribution<> distrAdaptEnv(para.AdaptEnv_mean / (2.0 * (double)para.L), para.AdaptEnv_sd / sqrt(2.0 * (double)para.L));
 	std::normal_distribution<> distrEmPrey(para.em_mean[0] / (2.0 * (double)para.L), para.em_sd[0] / sqrt(2.0 * (double)para.L));
 	std::normal_distribution<> distrEmPred(para.em_mean[1] / (2.0 * (double)para.L), para.em_sd[1] / sqrt(2.0 * (double)para.L));
 
@@ -345,19 +335,13 @@ void reproduction(void) {
 								else a = para.maladapt_ratio * para.min_a;
 							}
 						}
-						else { //no polymorphism
-							//this assumes both tradeoff for defense and adaptation
-							//cout << "fitness climate " << *iter->traits.fitClim << " adaptation to env " << *iter->traits.p_adapt_env;
-							//lambda = (*iter->traits.fitClim) * para.max_lambda + (para.min_lambda -  para.max_lambda) * (*iter->traits.p_defence);//TEST ON MY OWN ACCOUNT
-							//NEW EQUATION FOR GROWTH RATE WHERE W MULTIPLIES EVERYTHING BELOW
+						else {
 							if (para.prey_tradeoff && para.defence_environmental_adaptation_tradeoff == false) lambda = (*iter->traits.fitClim) * (para.max_lambda + (para.min_lambda -  para.max_lambda) * (*iter->traits.p_defence)); //MODIFIED growth rate (eqn.11)
 							else if (para.prey_tradeoff && para.defence_environmental_adaptation_tradeoff == true) lambda = (1 - (*iter->traits.p_defence)) * (*iter->traits.fitClim) * (para.max_lambda + (para.min_lambda -  para.max_lambda) * (*iter->traits.p_defence));
 							else lambda = para.lambda0;
 
 							//attack rate
 							a = para.max_a + b * (*iter->traits.p_defence); //linear
-							//a = 0.4 / (1.0 + exp(20.0 * ((*iter->traits.p_defence) - 0.3))) + 0.1; // logistic
-							//a = 0.4 * exp(-para.k * (*iter->traits.p_defence)) + 0.1; // exponential
 						}
 
 						e = exp(-a * pow(community[x][y]->pops[1]->N, 1.0 - para.m)); //eqn.12
@@ -373,7 +357,7 @@ void reproduction(void) {
 								if (offs > 0) {
 									for (int i = 0; i < offs; i++) {
 										//select a "dad"
-										dad = getDad(rdgen); //any individual (ermaphrodites + selfing allowed)
+										dad = getDad(rdgen); //any individual (hermaphrodites + selfing allowed)
 										//create new individual
 										ind = new Individuals(0, x, y);
 
@@ -527,7 +511,7 @@ void inheritance(int id, Individuals *pup, Individuals mom, Individuals dad) {
 		}
 		else{
 			pup->traits.p_adapt_env = new double(*land[(pup -> x)][(pup -> y)]->theta);
-			pup->traits.fitClim =  new double(1.0); //I believe this is correct, so line above is actually useless
+			pup->traits.fitClim =  new double(1.0); 
 			//*pup->traits.fitClim = exp(-pow( ((*pup->traits.p_adapt_env)-(*land[(pup -> x)][(pup -> y)]->theta)), 2.0) / (2.0 * para.width[0])); 
 		}
 
@@ -853,9 +837,7 @@ void dispersal(void) {
 												stats[new_x][new_y]->compute_sums(para, *iter);
 										}
 										//output individual
-										//Not outputting predators for now as they are not evolving
-										//if (para.ind_out && (g % para.ind_int == 0 || (g > para.shift_start && (g < para.shift_end + 100) && g % 20 == 0)))
-											//iter->outInd(para, r, g, &inds);
+							
 									}
 									else {
 										iter->deleteInd();
@@ -871,9 +853,6 @@ void dispersal(void) {
 											stats[new_x][new_y]->compute_sums(para, *iter);
 									}
 									//output individual
-									//Not outputting predators for now as they are not evolving
-									//if (para.ind_out && (g % para.ind_int == 0 || (g > para.shift_start && (g < para.shift_end + 100) && g % 20 == 0)))
-										//iter->outInd(para, r, g, &inds);
 								}
 							}
 							else {
@@ -894,9 +873,6 @@ void dispersal(void) {
 											stats[x][y]->compute_sums(para, *iter);
 									}
 									//output individual
-									//Not outputting predators for now as they are not evolving
-									//if (para.ind_out && (g % para.ind_int == 0 || (g > para.shift_start && (g < para.shift_end + 100) && g % 20 == 0)))
-										//iter->outInd(para, r, g, &inds);
 								}
 								else {
 									iter->deleteInd();
@@ -912,9 +888,7 @@ void dispersal(void) {
 										stats[x][y]->compute_sums(para, *iter);
 								}
 								//output individual
-								//Not outputting predators for now as they are not evolving
-								//if (para.ind_out && (g % para.ind_int == 0 || (g > para.shift_start && (g < para.shift_end + 100) && g % 20 == 0)))
-									//iter->outInd(para, r, g, &inds);
+
 							}
 						}
 					}
